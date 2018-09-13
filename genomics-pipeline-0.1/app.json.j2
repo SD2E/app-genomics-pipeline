@@ -1,0 +1,64 @@
+{
+  "name": "{{ agave.username }}-{{ app.name }}",
+  "version": "{{ app.version }}",
+  "executionType": "HPC",
+  "executionSystem": "hpc-tacc-maverick-{{ agave.username }}",
+  "parallelism": "SERIAL",
+  "deploymentPath": "{{ agave.username }}/apps/{{ app.bundle }}",
+  "deploymentSystem": "data-sd2e-projects-users",
+  "defaultProcessorsPerNode": 1,
+  "defaultNodeCount": 1,
+  "defaultQueue": "normal",
+  "label": "Genomics-Pipeline",
+  "modules": ["load tacc-singularity"],
+  "shortDescription": "Takes two reads as input, does qc, trims, assembles, assemblyqc",
+  "templatePath": "runner-template.sh",
+  "testPath": "tester.sh",
+  "inputs": [
+    {
+      "id": "reads1",
+      "value": {
+        "default": "agave://data-sd2e-community/sample/kallisto/test/reads_1.fastq.gz",
+        "required": true,
+        "visible": true
+        },
+        "details": {
+          "description": "Reads 1 in fastq or fastq.gz format"
+        }
+    },
+    {
+      "id": "reads2",
+      "value": {
+        "default": "agave://data-sd2e-community/sample/kallisto/test/reads_2.fastq.gz",
+        "required": true,
+        "visible": true
+        },
+        "details": {
+          "description": "Reads 2 in fastq or fastq.gz format"
+        }
+    }
+  ],
+  "parameters": [
+    {
+      "id": "numthreads",
+      "value": {
+        "default": "8",
+        "description": "default number of threads",
+        "type": "string",
+        "visible": true,
+        "required": true
+      }
+    },
+    {
+      "id": "CONTAINER_IMAGE",
+      "value": {
+        "default": "{{ docker.organization }}/{{ docker.repo }}:{{ docker.tag }}",
+        "description": "Container Image. Do not edit.",
+        "type": "string",
+        "visible": false,
+        "required": true
+      }
+    }
+  ],
+  "outputs": []
+}

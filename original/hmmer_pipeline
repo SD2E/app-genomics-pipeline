@@ -1,0 +1,10 @@
+jackhmmer -o nr_output --tblout nr_table --domtblout nr_dom PueA databases/nr.fasta
+
+# nr - NCBI nr database
+# 8000 genomes - https://github.com/tylerbarnum/metagenomics-tutorials
+
+esl-fetch --index nr.fasta
+
+grep -v \"^#\" nr_table | awk '{print $1}' | esl-sfetch -f ~/databases/nr.fasta -> PueA_hits.fasta
+
+#replace spaces in >names with underscores to include the whole name and metadata for further analysis
